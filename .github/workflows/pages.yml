@@ -2,7 +2,7 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]   # change if your default branch is not main
   workflow_dispatch:
 
 permissions:
@@ -15,23 +15,36 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  REPO_NAME: aggrak-site
+  REPO_NAME: aggrak-site            # your repo name
   NODE_VERSION: "20"
-  BASE_HREF: "/aggrak-site/"
+  BASE_HREF: "/aggrak-site/"        # must match repo name for project pages
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-      - run: npm ci
+
+      - name: Install deps
+        run: npm ci
+
       - name: Build Angular (browser only)
         run: |
           npx ng build --configuration production --base-href $BASE_HREF --deploy-url $BASE_HREF
+
+      - name: Patch built asset URLs (no leading slash)
+        run: |
+          ROOT="dist/${{ env.REPO_NAME }}/browser"
+          find "$ROOT" -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 \
+            | xargs -0 sed -i 's|/assets/|assets/|g'
+
       - name: Copy assets (belt-and-suspenders)
         run: |
           SRC_ASSETS="src/assets"
@@ -43,10 +56,14 @@ jobs:
           if [ -f "src/favicon.ico" ]; then
             cp -f src/favicon.ico "$DST/favicon.ico"
           fi
-          # SPA refresh fallback
+          # add SPA refresh fallback
           cp "$DST/index.html" "$DST/404.html"
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist/${{ env.REPO_NAME }}/browser
 
