@@ -40,7 +40,7 @@ jobs:
       # If you created a special config without budgets, use --configuration pages
       - name: Build Angular (browser only)
         run: |
-          npx ng build --configuration production --base-href $BASE_HREF
+            run: npx ng build --configuration production --base-href /AGGRAK/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
