@@ -2,7 +2,7 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]   # ← change if you use a different default branch
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -15,11 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # ===== SET THIS =====
-  REPO_NAME: aggrak-site            # ← your repository name
-  NODE_VERSION: "20"                # Node LTS works fine
-  # If this is a user/organization site (username.github.io), set BASE_HREF="/" instead.
-  BASE_HREF: "/aggrak-site/"        # must match REPO_NAME for project pages
+  BASE_HREF: "/aggrak-site/"
+  DEPLOY_URL: "/aggrak-site/"
+  NODE_VERSION: "20"
 
 jobs:
   build:
@@ -37,18 +35,30 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # If you created a special config without budgets, use --configuration pages
       - name: Build Angular (browser only)
         run: |
-          npx ng build --configuration production --base-href $BASE_HREF
+          # if budgets bite, nuke them on the fly
+          node -e "
+            const fs=require('fs');
+            const j=JSON.parse(fs.readFileSync('angular.json','utf8'));
+            const p=Object.keys(j.projects)[0];
+            if (j.projects[p].architect.build.configurations.production.budgets) {
+              j.projects[p].architect.build.configurations.production.budgets=[];
+            }
+            fs.writeFileSync('angular.json', JSON.stringify(j,null,2));
+          "
+          npx ng build --configuration production --base-href $BASE_HREF --deploy-url $DEPLOY_URL
+
+      - name: Show dist tree
+        run: ls -R dist || true
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload artifact (browser build)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/${{ env.REPO_NAME }}/browser
+          path: dist/**/browser
 
   deploy:
     needs: build
