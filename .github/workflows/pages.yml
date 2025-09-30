@@ -19,7 +19,6 @@ env:
   REPO_NAME: aggrak-site            # ← your repository name
   NODE_VERSION: "20"                # Node LTS works fine
   # If this is a user/organization site (username.github.io), set BASE_HREF="/" instead.
-  BASE_HREF: "/aggrak-site/"        # must match REPO_NAME for project pages
 
 jobs:
   build:
@@ -40,7 +39,7 @@ jobs:
       # If you created a special config without budgets, use --configuration pages
       - name: Build Angular (browser only)
         run: |
-            run: npx ng build --configuration production --base-href /AGGRAK/
+          npx ng build --configuration production --base-href /aggrak-site/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
