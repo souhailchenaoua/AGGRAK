@@ -16,7 +16,7 @@ concurrency:
 
 env:
   NODE_VERSION: "20"
-  BASE_HREF: "/aggrak-site/"
+  BASE_HREF: "/aggrak-site/"   # change to "/<your-repo>/" if different
 
 jobs:
   build:
@@ -28,11 +28,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
       - run: npm ci
-      - run: npx ng build --configuration production --base-href $BASE_HREF --deploy-url $BASE_HREF
+      # write browser build to a fixed path we control
+      - run: npx ng build --configuration production --base-href $BASE_HREF --deploy-url $BASE_HREF --output-path dist/browser
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/**/browser
+          path: dist/browser
 
   deploy:
     needs: build
