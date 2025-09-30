@@ -15,48 +15,22 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  BASE_HREF: "/aggrak-site/"
-  DEPLOY_URL: "/aggrak-site/"
   NODE_VERSION: "20"
+  BASE_HREF: "/aggrak-site/"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Use Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-
-      - name: Install deps
-        run: npm ci
-
-      - name: Build Angular (browser only)
-        run: |
-          # if budgets bite, nuke them on the fly
-          node -e "
-            const fs=require('fs');
-            const j=JSON.parse(fs.readFileSync('angular.json','utf8'));
-            const p=Object.keys(j.projects)[0];
-            if (j.projects[p].architect.build.configurations.production.budgets) {
-              j.projects[p].architect.build.configurations.production.budgets=[];
-            }
-            fs.writeFileSync('angular.json', JSON.stringify(j,null,2));
-          "
-          npx ng build --configuration production --base-href $BASE_HREF --deploy-url $DEPLOY_URL
-
-      - name: Show dist tree
-        run: ls -R dist || true
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact (browser build)
-        uses: actions/upload-pages-artifact@v3
+      - run: npm ci
+      - run: npx ng build --configuration production --base-href $BASE_HREF --deploy-url $BASE_HREF
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/**/browser
 
@@ -67,6 +41,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
