@@ -2,7 +2,7 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]   # ← change if you use a different default branch
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -15,11 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # ===== SET THIS =====
-  REPO_NAME: aggrak-site            # ← your repository name
-  NODE_VERSION: "20"                # Node LTS works fine
-  # If this is a user/organization site (username.github.io), set BASE_HREF="/" instead.
-  BASE_HREF: "/aggrak-site/"        # must match REPO_NAME for project pages
+  REPO_NAME: aggrak-site
+  NODE_VERSION: "20"
+  BASE_HREF: "/aggrak-site/"
 
 jobs:
   build:
@@ -37,10 +35,22 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # If you created a special config without budgets, use --configuration pages
       - name: Build Angular (browser only)
         run: |
           npx ng build --configuration production --base-href $BASE_HREF
+
+      # 🔧 Copy assets just in case Angular didn't include them
+      - name: Copy assets (belt-and-suspenders)
+        run: |
+          SRC_ASSETS="src/assets"
+          DST="dist/${{ env.REPO_NAME }}/browser"
+          if [ -d "$SRC_ASSETS" ]; then
+            mkdir -p "$DST/assets"
+            cp -R $SRC_ASSETS/* "$DST/assets/" || true
+          fi
+          if [ -f "src/favicon.ico" ]; then
+            cp -f src/favicon.ico "$DST/favicon.ico"
+          fi
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
