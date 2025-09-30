@@ -2,7 +2,7 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]   # change if your default branch is not main
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -10,14 +10,10 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 env:
-  REPO_NAME: aggrak-site            # your repo name
+  REPO_NAME: aggrak-site
   NODE_VERSION: "20"
-  BASE_HREF: "/aggrak-site/"        # must match repo name for project pages
+  BASE_HREF: "/aggrak-site/"
 
 jobs:
   build:
@@ -26,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -35,29 +31,41 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Build Angular (browser only)
+      - name: Build Angular
         run: |
-          npx ng build --configuration production --base-href $BASE_HREF --deploy-url $BASE_HREF
+          npx ng build --configuration production --base-href $BASE_HREF --deploy-url $BASE_HREF --output-path dist/${{ env.REPO_NAME }}/browser
 
-      - name: Patch built asset URLs (no leading slash)
+      - name: Show built refs & files
         run: |
-          ROOT="dist/${{ env.REPO_NAME }}/browser"
-          find "$ROOT" -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 \
-            | xargs -0 sed -i 's|/assets/|assets/|g'
-
-      - name: Copy assets (belt-and-suspenders)
-        run: |
-          SRC_ASSETS="src/assets"
           DST="dist/${{ env.REPO_NAME }}/browser"
-          if [ -d "$SRC_ASSETS" ]; then
-            mkdir -p "$DST/assets"
-            cp -R $SRC_ASSETS/* "$DST/assets/" || true
+          echo "---- index.html refs ----"
+          grep -o "assets/[^\"') ]*" "$DST/index.html" | sort -u || true
+          echo "---- built asset files ----"
+          ls -R "$DST/assets" || true
+
+      - name: Force-copy src/assets into dist
+        run: |
+          SRC="src/assets"
+          DST="dist/${{ env.REPO_NAME }}/browser/assets"
+          if [ -d "$SRC" ]; then
+            rm -rf "$DST" || true
+            mkdir -p "$DST"
+            cp -R $SRC/* "$DST/" || true
           fi
           if [ -f "src/favicon.ico" ]; then
-            cp -f src/favicon.ico "$DST/favicon.ico"
+            cp -f src/favicon.ico "dist/${{ env.REPO_NAME }}/browser/favicon.ico"
           fi
-          # add SPA refresh fallback
-          cp "$DST/index.html" "$DST/404.html"
+
+      - name: Patch built files (remove leading /assets)
+        run: |
+          DST="dist/${{ env.REPO_NAME }}/browser"
+          find "$DST" -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 \
+            | xargs -0 sed -i 's|/assets/|assets/|g'
+
+      - name: Add SPA fallback
+        run: |
+          DST="dist/${{ env.REPO_NAME }}/browser"
+          cp "$DST/index.html" "$DST/404.html" || true
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -72,8 +80,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
