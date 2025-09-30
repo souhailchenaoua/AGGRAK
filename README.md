@@ -45,7 +45,7 @@ Actions.
 ### 1. Clone the repository
 
 ``` bash
-git clone https://github.com/YOUR_USERNAME/aggrak-site.git
+git clone https://github.com/souhailchenaoua/AGGRAK.git
 cd aggrak-site
 ```
 
