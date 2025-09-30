@@ -2,7 +2,7 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]   # ← change if you use a different default branch
   workflow_dispatch:
 
 permissions:
@@ -15,9 +15,11 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: "20"
-  REPO_NAME: AGGRAK
-  BASE_HREF: "/AGGRAK/"   # must match your repo name exactly (case sensitive!)
+  # ===== SET THIS =====
+  REPO_NAME: aggrak-site            # ← your repository name
+  NODE_VERSION: "20"                # Node LTS works fine
+  # If this is a user/organization site (username.github.io), set BASE_HREF="/" instead.
+  BASE_HREF: "/aggrak-site/"        # must match REPO_NAME for project pages
 
 jobs:
   build:
@@ -32,10 +34,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
 
-      - name: Build Angular
+      # If you created a special config without budgets, use --configuration pages
+      - name: Build Angular (browser only)
         run: |
           npx ng build --configuration production --base-href $BASE_HREF
 
