@@ -4,155 +4,190 @@
     <div class="hero__bg" role="img" aria-label="Warehouse with shelves and boxes"></div>
     <div class="hero__overlay"></div>
 
-   <!-- Glass / pill nav -->
-<header class="site-nav">
-  <div class="site-nav__brand">
-    <img src="assets/logo/aggrak.svg" alt="AGGRAK" class="site-nav__logo" />
-  </div>
+    <!-- Glass / pill nav -->
+    <header class="site-nav">
+      <div class="site-nav__brand">
+        <img src="assets/logo/aggrak.svg" alt="AGGRAK" class="site-nav__logo" />
+      </div>
 
-  <div class="site-nav__shell" role="navigation" aria-label="Primary">
-    <nav class="site-nav__links">
-      <a class="is-active" href="#home">Home</a>
-      <a href="#about">About us</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </nav>
+      <div class="site-nav__shell" role="navigation" aria-label="Primary">
+        <nav class="site-nav__links">
+          <a class="is-active" href="#home">Home</a>
+          <a href="#about">About us</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+        </nav>
 
-    <div class="site-nav__actions">
-      <button class="chip chip--light" aria-haspopup="listbox" aria-expanded="false">
-        Eng <span class="chev">▾</span>
-      </button>
-      <button class="chip chip--primary">
-        Register <span class="chev">▾</span>
-      </button>
+        <div class="site-nav__actions">
+          <button class="chip chip--light" aria-haspopup="listbox" aria-expanded="false">
+            Eng <span class="chev">▾</span>
+          </button>
+          <button class="chip chip--primary">
+            Register <span class="chev">▾</span>
+          </button>
+        </div>
+        <!-- mobile menu button -->
+        <button class="site-nav__burger" aria-label="Open menu" aria-controls="mobile-menu"
+          [attr.aria-expanded]="isMobileMenuOpen" (click)="toggleMobileMenu()">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="site-nav__overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()" aria-hidden="true"></div>
+        <nav id="mobile-menu" class="site-nav__mobile" [class.is-open]="isMobileMenuOpen" [hidden]="!isMobileMenuOpen">
+          <a href="#home" (click)="onMobileNavClick()">Home</a>
+          <a href="#about" (click)="onMobileNavClick()">About us</a>
+          <a href="#services" (click)="onMobileNavClick()">Services</a>
+          <a href="#contact" (click)="onMobileNavClick()">Contact</a>
+        </nav>
+
+      </div>
+
+      <!-- mobile menu (optional; populate later) -->
+      <nav id="mobile-menu" class="site-nav__mobile" hidden>
+        <a href="#home">Home</a>
+        <a href="#about">About us</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+
+    <!-- Hero content -->
+    <div class="hero__content">
+      <h1 class="hero__title">
+        YOUR TRUSTED<br />
+        STORAGE &amp; LOGISTICS<br />
+        PARTNER
+      </h1>
+
+      <p class="hero__subtitle">
+        Aggrak offers secure warehousing, flexible storage options, and expert moving services
+        to protect your belongings and support your business growth.
+      </p>
+
+      <div class="hero__cta">
+        <button class="btn btn--primary">Get Onboarded</button>
+        <button class="btn btn--ghost">Track your Storage</button>
+      </div>
     </div>
-    <!-- mobile menu button -->
-      <button
-      class="site-nav__burger"
-      aria-label="Open menu"
-      aria-controls="mobile-menu"
-      [attr.aria-expanded]="isMobileMenuOpen"
-      (click)="toggleMobileMenu()">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="site-nav__overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()" aria-hidden="true"></div>
-<nav
-  id="mobile-menu"
-  class="site-nav__mobile"
-  [class.is-open]="isMobileMenuOpen"
-  [hidden]="!isMobileMenuOpen">
-  <a href="#home" (click)="onMobileNavClick()">Home</a>
-  <a href="#about" (click)="onMobileNavClick()">About us</a>
-  <a href="#services" (click)="onMobileNavClick()">Services</a>
-  <a href="#contact" (click)="onMobileNavClick()">Contact</a>
-</nav>
-
-  </div>
-
-  <!-- mobile menu (optional; populate later) -->
-  <nav id="mobile-menu" class="site-nav__mobile" hidden>
-    <a href="#home">Home</a>
-    <a href="#about">About us</a>
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</header>
-
-
-<!-- Hero content -->
-<div class="hero__content">
-  <h1 class="hero__title">
-    YOUR TRUSTED<br />
-    STORAGE &amp; LOGISTICS<br />
-    PARTNER
-  </h1>
-
-  <p class="hero__subtitle">
-    Aggrak offers secure warehousing, flexible storage options, and expert moving services
-    to protect your belongings and support your business growth.
-  </p>
-
-  <div class="hero__cta">
-    <button class="btn btn--primary">Get Onboarded</button>
-    <button class="btn btn--ghost">Track your Storage</button>
-  </div>
-</div>
 
 
   </section>
 
   <!-- ABOUT US -->
-<section id="about" class="about">
-  <div class="about__wrap">
-    <p class="about__eyebrow">About Us</p>
+  <section id="about" class="about">
+    <div class="about__wrap">
+      <p class="about__eyebrow">About Us</p>
 
-    <h2 class="about__title">
-      THE RELIABLE STORAGE<br />
-      IN SAUDI ARABIA
-    </h2>
+      <h2 class="about__title">
+        THE RELIABLE STORAGE<br />
+        IN SAUDI ARABIA
+      </h2>
 
-    <p class="about__lead">
-      Aggrak is a professional moving and logistics company that offers various storage options
-      for your belongings. We offer a range of services and storage options to secure and protect
-      a wide range of belongings and valuables.
-    </p>
+      <p class="about__lead">
+        Aggrak is a professional moving and logistics company that offers various storage options
+        for your belongings. We offer a range of services and storage options to secure and protect
+        a wide range of belongings and valuables.
+      </p>
 
-    <button class="btn btn--primary about__cta">Read More</button>
-  </div>
-</section>
+      <button class="btn btn--primary about__cta">Read More</button>
+    </div>
+  </section>
 
 
-<!-- NETWORK / STATS -->
-<section id="network" class="network">
-  <div class="network__bg" aria-label="Warehouse operator"></div>
-  <div class="network__inner">
-    <div class="network__panel">
-      <h3 class="network__title">Saudi Arabia’s Leading<br>Warehouse Network</h3>
-      <div class="network__stats">
-        <div class="stat"><div class="stat__num">1M+</div><div class="stat__label">SqM Storage Space</div></div>
-        <div class="stat"><div class="stat__num">200K+</div><div class="stat__label">Pallets</div></div>
-        <div class="stat"><div class="stat__num">20+</div><div class="stat__label">Years Of<br>Experience</div></div>
-        <div class="stat"><div class="stat__num">10+</div><div class="stat__label">Logistics Partners</div></div>
-        <div class="stat"><div class="stat__num">20+</div><div class="stat__label">Cities Served</div></div>
+  <!-- NETWORK / STATS -->
+  <section id="network" class="network">
+    <div class="network__bg" aria-label="Warehouse operator"></div>
+    <div class="network__inner">
+      <div class="network__panel">
+        <h3 class="network__title">Saudi Arabia’s Leading<br>Warehouse Network</h3>
+        <div class="network__stats">
+          <div class="stat">
+            <div class="stat__num">1M+</div>
+            <div class="stat__label">SqM Storage Space</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">200K+</div>
+            <div class="stat__label">Pallets</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">20+</div>
+            <div class="stat__label">Years Of<br>Experience</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">10+</div>
+            <div class="stat__label">Logistics Partners</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">20+</div>
+            <div class="stat__label">Cities Served</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- SERVICES -->
-<section id="services" class="services services--gray">
-  <div class="services__wrap">
-    <p class="services__eyebrow">Services</p>
+  </section>
+  <!-- SERVICES -->
+  <section id="services" class="services services--gray">
+    <div class="services__wrap">
+      <p class="services__eyebrow">Services</p>
 
-    <h2 class="services__title">OUR STORAGE &amp; WAREHOUSING</h2>
+      <h2 class="services__title">OUR STORAGE &amp; WAREHOUSING</h2>
 
-    <p class="services__lead">
-      We provide flexible storage spaces to accommodate all your needs.
-    </p>
+      <p class="services__lead">
+        We provide flexible storage spaces to accommodate all your needs.
+      </p>
 
-    <div class="service">
-      <div class="service__info">
-        <div class="service__head">
-          <span class="service__num">01</span>
-          <h3 class="service__name">DRY WAREHOUSE</h3>
-          <br>
-          <p class="service__desc">
-          Safe and organized storage for non-perishable goods.
-        </p>
-        <br>
-        <button class="btn btn--primary">Read More</button>
+      <div class="service">
+        <div class="service__info">
+          <div class="service__head">
+            <span class="service__num">01</span>
+            <h3 class="service__name">DRY WAREHOUSE</h3>
+            <br>
+            <p class="service__desc">
+              Safe and organized storage for non-perishable goods.
+            </p>
+            <br>
+            <button class="btn btn--primary">Read More</button>
+          </div>
+
+
         </div>
 
-        
+        <figure class="service__image">
+          <img src="assets/services/dry-warehouse.jpg" alt="Dry warehouse storage">
+        </figure>
       </div>
-
-      <figure class="service__image">
-        <img src="assets/services/dry-warehouse.jpg" alt="Dry warehouse storage">
-      </figure>
     </div>
-  </div>
-</section>
+  </section>
 
 
+  <!-- SERVICES: Chemical Storage -->
+  <section class="services services--red" id="chemical-storage">
+    <div class="services__wrap">
+
+      <div class="service service--reverse">
+        <div class="service__info">
+          <div class="service__head">
+            <span class="service2__num">02</span>
+
+            <h3 class="service__name">CHEMICAL STORAGE</h3>
+            <br>
+            <p class="service__desc">
+              Secure Facilities Designed For Hazardous And Sensitive Materials.
+            </p>
+            <div></div>
+            <button class="btn btn--primary">Read More</button>
+
+          </div>
+
+        </div>
+
+        <figure class="service__image">
+          <!-- replace with your asset -->
+          <img src="assets/services/chemical-storage.jpg" alt="Chemical storage tanks and safety systems">
+        </figure>
+      </div>
+    </div>
+  </section>
 
 
 
