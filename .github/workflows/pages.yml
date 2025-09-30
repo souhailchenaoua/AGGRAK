@@ -1,0 +1,62 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]   # ← change if you use a different default branch
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+env:
+  # ===== SET THIS =====
+  REPO_NAME: aggrak-site            # ← your repository name
+  NODE_VERSION: "20"                # Node LTS works fine
+  # If this is a user/organization site (username.github.io), set BASE_HREF="/" instead.
+  BASE_HREF: "/aggrak-site/"        # must match REPO_NAME for project pages
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install deps
+        run: npm ci
+
+      # If you created a special config without budgets, use --configuration pages
+      - name: Build Angular (browser only)
+        run: |
+          npx ng build --configuration production --base-href $BASE_HREF
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/${{ env.REPO_NAME }}/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

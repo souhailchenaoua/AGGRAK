@@ -1,0 +1,139 @@
+<main>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero__bg" role="img" aria-label="Warehouse with shelves and boxes"></div>
+    <div class="hero__overlay"></div>
+
+   <!-- Glass / pill nav -->
+<header class="site-nav">
+  <div class="site-nav__brand">
+    <img src="/assets/logo/aggrak.svg" alt="AGGRAK" class="site-nav__logo" />
+  </div>
+
+  <div class="site-nav__shell" role="navigation" aria-label="Primary">
+    <nav class="site-nav__links">
+      <a class="is-active" href="#home">Home</a>
+      <a href="#about">About us</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="site-nav__actions">
+      <button class="chip chip--light" aria-haspopup="listbox" aria-expanded="false">
+        Eng <span class="chev">▾</span>
+      </button>
+      <button class="chip chip--primary">
+        Register <span class="chev">▾</span>
+      </button>
+    </div>
+
+    <!-- mobile toggle (optional; keep for later) -->
+    <button class="site-nav__burger" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- mobile menu (optional; populate later) -->
+  <nav id="mobile-menu" class="site-nav__mobile" hidden>
+    <a href="#home">Home</a>
+    <a href="#about">About us</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+
+    <!-- Hero content -->
+    <div class="hero__content">
+      <h1 class="hero__title">
+        TURN EMPTY SPACE INTO<br />
+        REVENUE, BOOK WAREHOUSES<br />
+        ON-DEMAND
+      </h1>
+
+      <div class="hero__cards">
+        <!-- Buyers -->
+        <article class="card">
+          <h2 class="card__title">For Buyers</h2>
+          <p class="card__text">
+            Flexible Storage Space When You Need It,<br />
+            Without Long-Term Contracts
+          </p>
+          <button class="btn btn--pill" (click)="onBookNow()">Book Now</button>
+        </article>
+
+        <!-- Owners -->
+        <article class="card">
+          <h2 class="card__title">For Owners</h2>
+          <p class="card__text">
+            Earn From Your Warehouse With Ease, No Long-<br />
+            Term Contracts Needed
+          </p>
+          <button class="btn btn--pill btn--outline" (click)="onListWarehouse()">
+            List your warehouse <span class="arrow">→</span>
+          </button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US -->
+  <section id="about" class="about">
+    <div class="about__wrap">
+      <p class="about__eyebrow">About Us</p>
+
+      <h2 class="about__title">
+        TECHNOLOGY-DRIVEN WAREHOUSING<br />
+        ACROSS SAUDI ARABIA
+      </h2>
+
+      <p class="about__lead">
+        <span class="about__brand">Aggrak Technology</span>
+        Empowers Warehouse Owners To Earn From Their Space While Providing
+        Businesses And Individuals With Secure, Flexible Storage Solutions.
+        From Listing To Managing, Our Smart Logistics System Ensures
+        Efficiency, Reliability, And Peace Of Mind For All
+      </p>
+
+      <button class="btn btn--primary about__cta">Read More</button>
+    </div>
+  </section>
+
+<!-- NETWORK / STATS -->
+<section id="network" class="network">
+  <div class="network__bg" aria-label="Warehouse operator"></div>
+  <div class="network__inner">
+    <div class="network__panel">
+      <h3 class="network__title">Saudi Arabia’s Leading<br>Warehouse Network</h3>
+      <div class="network__stats">
+        <div class="stat"><div class="stat__num">1M+</div><div class="stat__label">SqM Storage Space</div></div>
+        <div class="stat"><div class="stat__num">200K+</div><div class="stat__label">Pallets</div></div>
+        <div class="stat"><div class="stat__num">20+</div><div class="stat__label">Years Of<br>Experience</div></div>
+        <div class="stat"><div class="stat__num">10+</div><div class="stat__label">Logistics Partners</div></div>
+        <div class="stat"><div class="stat__num">20+</div><div class="stat__label">Cities Served</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- CONTACT (placeholder) -->
+  <section id="contact" class="section section--dark">
+    <div class="container">
+      <h2>Contact</h2>
+      <form class="contact-form" (submit)="$event.preventDefault()">
+        <input type="text" placeholder="Full Name" required />
+        <input type="email" placeholder="Email" required />
+        <textarea rows="4" placeholder="Your message"></textarea>
+        <button type="submit" class="btn btn--primary">Send</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© AGGRAK. All rights reserved.</span>
+  </div>
+</footer>
