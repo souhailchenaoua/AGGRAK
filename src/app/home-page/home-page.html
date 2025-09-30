@@ -26,11 +26,27 @@
         Register <span class="chev">▾</span>
       </button>
     </div>
-
-    <!-- mobile toggle (optional; keep for later) -->
-    <button class="site-nav__burger" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+    <!-- mobile menu button -->
+      <button
+      class="site-nav__burger"
+      aria-label="Open menu"
+      aria-controls="mobile-menu"
+      [attr.aria-expanded]="isMobileMenuOpen"
+      (click)="toggleMobileMenu()">
       <span></span><span></span><span></span>
     </button>
+    <div class="site-nav__overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()" aria-hidden="true"></div>
+<nav
+  id="mobile-menu"
+  class="site-nav__mobile"
+  [class.is-open]="isMobileMenuOpen"
+  [hidden]="!isMobileMenuOpen">
+  <a href="#home" (click)="onMobileNavClick()">Home</a>
+  <a href="#about" (click)="onMobileNavClick()">About us</a>
+  <a href="#services" (click)="onMobileNavClick()">Services</a>
+  <a href="#contact" (click)="onMobileNavClick()">Contact</a>
+</nav>
+
   </div>
 
   <!-- mobile menu (optional; populate later) -->
