@@ -530,7 +530,7 @@ section {
 
 .services__eyebrow {
   margin: 0 0 8px;
-  font-size: 14px;
+  font-size: 35px;
   font-weight: 600;
   letter-spacing: .04em;
   color: #fff;
@@ -594,11 +594,11 @@ section {
 
 .service__image {
   overflow: hidden;
-  height: 35dvh;
+  width: 35dvw;
   box-shadow: 0 14px 40px rgba(0,0,0,.35);
   background: #2b2b2b;
   aspect-ratio: 16 / 9;
-
+  border-radius: 2px;
   img {
     display: block;
     width: 100%;
@@ -621,7 +621,9 @@ section {
   .services--gray .service {
     grid-template-columns: 1fr;
   }
-  .service__image { order: 2; }
+  .service__image { order: 2;
+     
+  }
 }
 
 /* =========================================
