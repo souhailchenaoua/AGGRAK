@@ -58,21 +58,31 @@ section {
 }
 
 /* =========================================
-   NAV (glass pill, sticky)
+   NAV (glass pill, sticky, mobile burger)
+   Drop-in replacement for your current block
 ========================================= */
+
 .site-nav {
+  /* sticky full-width header */
   position: sticky;
   top: max(12px, env(safe-area-inset-top));
   z-index: 50;
-  display: grid;
-  grid-template-columns: 1fr minmax(0, 1060px) 1fr;
-  align-items: start;
-  padding: 12px clamp(12px, 3vw, 28px);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 12px 24px;
 
+  /* layout: brand left | nav shell right */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+
+  /* --- brand / logo --- */
   &__brand {
-    grid-column: 1 / 2;
-    display: flex; align-items: center;
+    display: flex;
+    align-items: center;
   }
+
   &__logo {
     height: clamp(24px, 3.2vw, 38px);
     width: auto;
@@ -80,16 +90,17 @@ section {
     filter: drop-shadow(0 1px 0 rgba(0,0,0,.25));
   }
 
-  /* the pill/glass container */
+  /* --- glass pill container (right aligned) --- */
   &__shell {
-    grid-column: 2 / 3;
-    margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
+    margin-left: auto; /* docks the pill to the RIGHT */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     gap: clamp(12px, 2.2vw, 24px);
     padding: clamp(10px, 1.4vw, 14px) clamp(14px, 2vw, 22px);
     border-radius: 9999px;
 
-    /* glass gradient + blur + inner highlight + falloff */
+    /* glass gradient + blur */
     background:
       radial-gradient(120% 180% at 90% 50%, rgba(0,0,0,.55), rgba(0,0,0,.2) 60%),
       linear-gradient(90deg, rgba(0,0,0,.75), rgba(0,0,0,.35));
@@ -101,8 +112,11 @@ section {
       inset 0 1px 0 rgba(255,255,255,.08);
   }
 
+  /* --- desktop links & actions --- */
   &__links {
-    display: flex; gap: clamp(18px, 3vw, 36px);
+    display: flex;
+    gap: clamp(18px, 3vw, 36px);
+
     a {
       color: rgba(255,255,255,.92);
       text-decoration: none;
@@ -111,6 +125,7 @@ section {
       padding: 8px 10px;
       border-radius: 10px;
       transition: background-color .2s ease, color .2s ease;
+
       &:hover { background: rgba(255,255,255,.08); color: #fff; }
       &.is-active { color: #ff4d43; }
     }
@@ -143,20 +158,108 @@ section {
   }
 }
 
-/* nav responsiveness */
-@media (max-width: 980px) {
-  .site-nav {
-    grid-template-columns: 1fr;
-    row-gap: 10px;
-    &__brand { justify-content: center; }
-    &__shell { grid-column: 1 / -1; width: 100%; }
-    &__links { gap: 16px; a { padding: 6px 8px; } }
+/* =========================
+   MOBILE NAV (burger + panel)
+========================= */
+
+/* perfect hamburger → X (WHITE) */
+.site-nav__burger {
+  position: relative;
+  width: 44px; height: 44px;
+  display: none; /* hidden on desktop, shown on mobile */
+  border: 0; background: transparent; cursor: pointer;
+  z-index: 1002;
+
+  --bar-w: 24px;
+  --bar-h: 2px;
+  --bar-off: 7px;
+
+  span {
+    position: absolute; left: 50%; top: 50%;
+    width: var(--bar-w); height: var(--bar-h);
+    background: #fff; border-radius: 2px;
+    transform-origin: center;
+    transition: transform .25s ease, opacity .18s ease;
+    transform: translate(-50%, -50%);
+  }
+  span:nth-child(1){ transform: translate(-50%, calc(-50% - var(--bar-off))); }
+  span:nth-child(2){ transform: translate(-50%, -50%); }
+  span:nth-child(3){ transform: translate(-50%, calc(-50% + var(--bar-off))); }
+
+  &[aria-expanded="true"] {
+    span:nth-child(1){ transform: translate(-50%, -50%) rotate(45deg); }
+    span:nth-child(2){ opacity: 0; }
+    span:nth-child(3){ transform: translate(-50%, -50%) rotate(-45deg); }
   }
 }
-@media (max-width: 640px) {
-  .site-nav__links { display: none; }         /* keep it simple on phones */
-  .site-nav__shell { justify-content: flex-end; }
+
+/* dark overlay behind the panel */
+.site-nav__overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 1000;
 }
+
+/* slide-in panel */
+.site-nav__mobile {
+  position: fixed; top: 0; right: 0;
+  width: min(80vw, 320px); height: 100vh;
+  background: #111; color: #fff;
+  padding: 80px 20px;
+  transform: translateX(100%);
+  transition: transform .3s ease;
+  z-index: 1001;
+
+  a {
+    display: block;
+    padding: 12px 0;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+  }
+  a:hover { color: #e83b38; }
+}
+.site-nav__mobile.is-open { transform: translateX(0); }
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .site-nav__burger span { transition: none; }
+  .site-nav__mobile { transition: none; }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* Tablet & below: stack / simplify */
+@media (max-width: 980px) {
+  .site-nav {
+    grid-template-columns: auto 1fr;
+    row-gap: 10px;
+
+    &__brand { justify-content: start; }
+    &__shell {
+      gap: 12px;
+      padding: 10px 14px;
+    }
+  }
+}
+
+/* Phone: hide desktop links/actions, show burger on right */
+@media (max-width: 640px) {
+  .site-nav__links,
+  .site-nav__actions { display: none; }
+
+  .site-nav__burger { display: inline-block; }
+
+  /* keep the pill narrow on phones (just holds the burger) */
+  .site-nav__shell {
+    justify-content: flex-end;
+    padding: 6px 8px;
+    gap: 0;
+  }
+}
+
 
 /* =========================================
    HERO
@@ -182,8 +285,8 @@ section {
   &__overlay {
     position: absolute; inset: 0;
     background:
-      radial-gradient(60% 80% at 65% 60%, rgba(0,0,0,.2), rgba(0,0,0,.6) 70%),
-      linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.65) 70%);
+      radial-gradient(60% 80% at 65% 60%, rgba(0, 0, 0, 0), rgba(0,0,0,.6) 70%),
+      linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0, 0, 0, 0) 70%);
     mix-blend-mode: multiply;
   }
 
