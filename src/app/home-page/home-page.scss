@@ -266,7 +266,7 @@ section {
 ========================================= */
 .hero {
   position: relative;
-  min-height: 70svh;          /* full-screen slide */
+  min-height: 75svh;          /* full-screen slide */
   color: $white;
   isolation: isolate;
   overflow: hidden;            /* hides edges from bg scale */
