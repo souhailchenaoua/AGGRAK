@@ -1,4 +1,4 @@
-name: Build & Deploy to GitHub Pages
+name: Build & Deploy Angular to GitHub Pages
 
 on:
   push:
@@ -14,12 +14,6 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-env:
-  NODE_VERSION: "20"
-  # If this is a project page (user.github.io/<repo>), some frameworks need a base path.
-  # Set it if your app requires it (e.g. '/my-repo'):
-  BASE_PATH: ""
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -29,63 +23,30 @@ jobs:
 
     steps:
       - name: Checkout
-      # Full git history is not required for Pages deployment
         uses: actions/checkout@v4
 
-      # Detect if this is a Node project (package.json present)
-      - name: Detect project type
-        id: detect
-        run: |
-          if [ -f "package.json" ]; then
-            echo "is_node=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "is_node=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      # Setup Node only when needed
       - name: Setup Node
-        if: steps.detect.outputs.is_node == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: 20
           cache: npm
 
-      # Install deps and build (customize your build command if needed)
-      - name: Install
-        if: steps.detect.outputs.is_node == 'true'
+      - name: Install deps
         run: npm ci
 
-      - name: Build
-        if: steps.detect.outputs.is_node == 'true'
+      # IMPORTANT: base-href points to /<repo-name>/ for project pages
+      # output-path is forced to plain ./dist so the next step can upload it cleanly
+      - name: Build (Angular)
         run: |
-          # Example hints:
-          # - Angular project pages: add --base-href "$BASE_PATH/"
-          # - Vite: set base in vite.config if necessary (base: process.env.BASE_PATH || '/')
-          npm run build
+          npx ng version || npx -y @angular/cli@latest version
+          npx ng build --configuration production \
+            --base-href "/${{ github.event.repository.name }}/" \
+            --output-path dist
 
-      # Pick artifact path:
-      # - dist/ if Node build
-      # - public/ if it exists in a static repo
-      # - . (repo root) otherwise
-      - name: Resolve artifact path
-        id: artifact
+      # SPA fallback for client-side routing
+      - name: Enable SPA fallback
         run: |
-          if [ "${{ steps.detect.outputs.is_node }}" = "true" ] && [ -d "dist" ]; then
-            echo "path=dist" >> "$GITHUB_OUTPUT"
-          elif [ -d "public" ]; then
-            echo "path=public" >> "$GITHUB_OUTPUT"
-          else
-            echo "path=." >> "$GITHUB_OUTPUT"
-          fi
-          echo "Using artifact path: $(cat $GITHUB_OUTPUT | sed -n 's/^path=//p')"
-
-      # SPA routing (optional): copy index.html to 404.html to support client-side routes
-      - name: Enable SPA fallback (optional)
-        if: steps.detect.outputs.is_node == 'true'
-        run: |
-          if [ -f "dist/index.html" ]; then
-            cp dist/index.html dist/404.html || true
-          fi
+          if [ -f "dist/index.html" ]; then cp dist/index.html dist/404.html; fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -93,7 +54,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ steps.artifact.outputs.path }}
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
