@@ -1,59 +1,139 @@
-# AggrakSite
+# AGGRAK Website
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
+A modern, responsive static website built with **Angular** and **SCSS**
+for the AGGRAK project.\
+This project is designed to be deployed to **GitHub Pages** using GitHub
+Actions.
 
-## Development server
+------------------------------------------------------------------------
 
-To start a local development server, run:
+## 🚀 Features
 
-```bash
-ng serve
+-   Built with **Angular 19+**
+-   Responsive SCSS styling (no Tailwind required)
+-   One-page scroll navigation (Home, About, Services, Contact)
+-   Hero section with background image overlay
+-   Glass/Pill style navigation bar
+-   GitHub Pages CI/CD workflow for automated deployment
+
+------------------------------------------------------------------------
+
+## 📂 Project Structure
+
+    aggrak-site/
+    │
+    ├── src/
+    │   ├── app/
+    │   │   ├── home-page/        # Homepage component
+    │   │   ├── about/            # About section
+    │   │   ├── services/         # Services section
+    │   │   └── contact/          # Contact section
+    │   │
+    │   ├── assets/               # Images, logos, and icons
+    │   ├── styles/               # Global SCSS styles
+    │   └── index.html            # Main HTML entry point
+    │
+    ├── angular.json              # Angular workspace config
+    ├── package.json              # Dependencies & scripts
+    ├── tsconfig.json             # TypeScript config
+    └── README.md                 # Project documentation
+
+------------------------------------------------------------------------
+
+## 🛠️ Setup & Installation
+
+### 1. Clone the repository
+
+``` bash
+git clone https://github.com/YOUR_USERNAME/aggrak-site.git
+cd aggrak-site
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### 2. Install dependencies
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+``` bash
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 3. Run locally
 
-```bash
-ng generate --help
+``` bash
+ng serve -o
 ```
 
-## Building
+This will open the site at `http://localhost:4200`.
 
-To build the project run:
+------------------------------------------------------------------------
 
-```bash
-ng build
+## 🌐 Deployment to GitHub Pages
+
+This project uses GitHub Actions to automatically build and deploy the
+site.
+
+### 1. Update `angular.json`
+
+Set the correct `baseHref` in your build options:
+
+``` json
+"baseHref": "/aggrak-site/"
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 2. Push to GitHub
 
-## Running unit tests
+Commit and push changes to the `main` branch.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### 3. GitHub Actions Workflow
 
-```bash
-ng test
+The workflow file is located at:
+
+    .github/workflows/pages.yml
+
+It runs automatically on every push to `main`.
+
+### 4. Access the Site
+
+Once deployed, your site will be live at:
+
+    https://YOUR_USERNAME.github.io/aggrak-site/
+
+------------------------------------------------------------------------
+
+## ⚠️ Common Issues & Fixes
+
+### Assets not loading on GitHub Pages
+
+-   Ensure that the `baseHref` in `angular.json` matches your repo name.
+-   Example: if repo = `aggrak-site`, then baseHref = `/aggrak-site/`
+
+### Cache Issues
+
+-   Clear browser cache or use **hard reload** (`Ctrl + Shift + R`).
+
+### Deployment not triggering
+
+-   Ensure the workflow file is located at `.github/workflows/pages.yml`
+-   Make sure you pushed to the correct branch (`main`).
+
+------------------------------------------------------------------------
+
+## 📖 Scripts
+
+``` bash
+npm run start      # Start local dev server
+npm run build      # Build production files
+npm run test       # Run unit tests
 ```
 
-## Running end-to-end tests
+------------------------------------------------------------------------
 
-For end-to-end (e2e) testing, run:
+## 👨‍💻 Author
 
-```bash
-ng e2e
-```
+Developed by **Souheil Idris Chenaoua**\
+GitHub: [souhailchenaoua](https://github.com/souhailchenaoua)
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+------------------------------------------------------------------------
 
-## Additional Resources
+## 📜 License
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is licensed under the **MIT License**.\
+Feel free to use, modify, and distribute.
