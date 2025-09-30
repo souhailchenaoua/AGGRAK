@@ -134,7 +134,7 @@ section { margin: 0; }
 
   &__bg {
     position: absolute; inset: 0;
-    background-image: url('/aggrak-site/src/assets/hero/warehouse-bg.jpg');
+    background-image: url('../../assets/hero/warehouse-bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -321,7 +321,7 @@ section { margin: 0; }
 /* BACKGROUND IMAGE */
 .network__bg {
   position: absolute; inset: 0;
-  background-image: url('/aggrak-site/src/assets/network/network-bg.jpg');
+  background-image: url('../../assets/network/network-bg.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top center; /* show upper half */

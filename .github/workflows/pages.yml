@@ -2,7 +2,7 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]   # ← change if you use a different default branch
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -15,10 +15,11 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # ===== SET THIS =====
-  REPO_NAME: aggrak-site            # ← your repository name
-  NODE_VERSION: "20"                # Node LTS works fine
-  # If this is a user/organization site (username.github.io), set BASE_HREF="/" instead.
+  NODE_VERSION: "20"
+  # CHANGE THIS to your repo name exactly as it appears on GitHub (case-sensitive)
+  REPO_NAME: "AGGRAK"
+  # Project Pages MUST use "/<repo>/" as both base-href and deploy-url
+  PUBLIC_PATH: "/AGGRAK/"
 
 jobs:
   build:
@@ -33,21 +34,44 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
-      - name: Install deps
+      - name: Install dependencies
         run: npm ci
 
-      # If you created a special config without budgets, use --configuration pages
-      - name: Build Angular (browser only)
+      # Build with BOTH base-href and deploy-url for reliable asset URLs
+      - name: Build Angular (with correct public path)
+        run: npx ng build --configuration production --base-href "${PUBLIC_PATH}" --deploy-url "${PUBLIC_PATH}"
+
+      # Find the correct output folder (supports dist/<app>/browser or dist/<app>)
+      - name: Detect output dir
+        id: outdir
+        shell: bash
         run: |
-          npx ng build --configuration production --base-href /aggrak-site/
+          if [ -d "dist/${REPO_NAME}/browser" ]; then
+            echo "path=dist/${REPO_NAME}/browser" >> $GITHUB_OUTPUT
+          else
+            # fallback: first folder under dist
+            FIRST=$(ls -1 dist | head -n1)
+            if [ -d "dist/$FIRST/browser" ]; then
+              echo "path=dist/$FIRST/browser" >> $GITHUB_OUTPUT
+            else
+              echo "path=dist/$FIRST" >> $GITHUB_OUTPUT
+            fi
+          fi
+          echo "Using OUTDIR=$(cat $GITHUB_OUTPUT)"
+
+      # SPA fallback so /route refresh doesn’t 404 on Pages
+      - name: Add 404 fallback + .nojekyll
+        run: |
+          cp "${{ steps.outdir.outputs.path }}/index.html" "${{ steps.outdir.outputs.path }}/404.html"
+          touch "${{ steps.outdir.outputs.path }}/.nojekyll"
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload artifact (only built site)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/aggrak-site/browser
+          path: ${{ steps.outdir.outputs.path }}
 
   deploy:
     needs: build
@@ -56,6 +80,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
