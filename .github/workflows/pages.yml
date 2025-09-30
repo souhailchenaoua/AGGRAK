@@ -34,16 +34,44 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Build Angular to ./dist with the correct base path for project pages
       - name: Build Angular project
         run: |
           npx ng build --configuration production \
             --base-href "/AGGRAK/" \
             --output-path dist
 
-      # Copy index.html to 404.html for SPA routing (optional but recommended)
+      # OPTIONAL MERGE: copy extra static site files into dist so they get published
+      # - Copies ./public/** and ./docs/** if present
+      # - Copies top-level files like CNAME, favicon.ico, robots.txt, PDFs, images, etc.
+      - name: Merge extra static content into dist
+        run: |
+          set -e
+          # copy public/
+          if [ -d "public" ]; then
+            rsync -av --delete-excluded public/ dist/
+          fi
+          # copy docs/ (useful if you keep static docs)
+          if [ -d "docs" ]; then
+            rsync -av --delete-excluded docs/ dist/docs/
+          fi
+          # copy selected root files into dist
+          for f in CNAME favicon.ico robots.txt sitemap.xml manifest.json browserconfig.xml; do
+            if [ -f "$f" ]; then cp -f "$f" dist/; fi
+          done
+          # copy any top-level static assets you might keep at repo root
+          shopt -s nullglob
+          for ext in png jpg jpeg webp gif svg pdf mp4 mp3 css js html; do
+            for f in *.$ext; do
+              # avoid copying build artifacts accidentally
+              if [ "$f" != "index.html" ]; then cp -f "$f" dist/; fi
+            done
+          done
+
+      # SPA fallback so client-side routes work on GitHub Pages
       - name: SPA Fallback
         run: |
-          if [ -f "dist/index.html" ]; then cp dist/index.html dist/404.html; fi
+          if [ -f "dist/index.html" ]; then cp -f dist/index.html dist/404.html; fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
