@@ -23,23 +23,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Use Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-
-      - name: Install deps
-        run: npm ci
-
+      - run: npm ci
       - name: Build Angular (browser only)
         run: |
-          npx ng build --configuration production --base-href $BASE_HREF
-
-      # 🔧 Copy assets just in case Angular didn't include them
+          npx ng build --configuration production --base-href $BASE_HREF --deploy-url $BASE_HREF
       - name: Copy assets (belt-and-suspenders)
         run: |
           SRC_ASSETS="src/assets"
@@ -51,12 +43,10 @@ jobs:
           if [ -f "src/favicon.ico" ]; then
             cp -f src/favicon.ico "$DST/favicon.ico"
           fi
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+          # SPA refresh fallback
+          cp "$DST/index.html" "$DST/404.html"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/${{ env.REPO_NAME }}/browser
 
