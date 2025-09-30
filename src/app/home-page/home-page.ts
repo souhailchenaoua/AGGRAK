@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
 })
 export class HomePageComponent {
   // simple stubs for menu actions (wire to router later)
-  onBookNow() {}
-  onListWarehouse() {}
-
+  onGetOnboarded() { this.onBookNow(); }
+onTrackStorage() { /* route to tracking page */ }
+  onBookNow() {  }
   lang = 'Eng';
 }
