@@ -1,8 +1,8 @@
-name: Deploy Angular to GitHub Pages
+name: Build & Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -12,51 +12,89 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
-  REPO_NAME: aggrak-site
   NODE_VERSION: "20"
-  BASE_HREF: "/aggrak-site/"
+  # If this is a project page (user.github.io/<repo>), some frameworks need a base path.
+  # Set it if your app requires it (e.g. '/my-repo'):
+  BASE_PATH: ""
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-      - run: npm ci
-      - name: Build Angular (browser only)
-        run: |
-          npx ng build --configuration production --base-href $BASE_HREF --deploy-url $BASE_HREF
-      - name: Copy assets (belt-and-suspenders)
-        run: |
-          SRC_ASSETS="src/assets"
-          DST="dist/${{ env.REPO_NAME }}/browser"
-          if [ -d "$SRC_ASSETS" ]; then
-            mkdir -p "$DST/assets"
-            cp -R $SRC_ASSETS/* "$DST/assets/" || true
-          fi
-          if [ -f "src/favicon.ico" ]; then
-            cp -f src/favicon.ico "$DST/favicon.ico"
-          fi
-          # SPA refresh fallback
-          cp "$DST/index.html" "$DST/404.html"
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/${{ env.REPO_NAME }}/browser
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
+      - name: Checkout
+      # Full git history is not required for Pages deployment
+        uses: actions/checkout@v4
+
+      # Detect if this is a Node project (package.json present)
+      - name: Detect project type
+        id: detect
+        run: |
+          if [ -f "package.json" ]; then
+            echo "is_node=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_node=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Setup Node only when needed
+      - name: Setup Node
+        if: steps.detect.outputs.is_node == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      # Install deps and build (customize your build command if needed)
+      - name: Install
+        if: steps.detect.outputs.is_node == 'true'
+        run: npm ci
+
+      - name: Build
+        if: steps.detect.outputs.is_node == 'true'
+        run: |
+          # Example hints:
+          # - Angular project pages: add --base-href "$BASE_PATH/"
+          # - Vite: set base in vite.config if necessary (base: process.env.BASE_PATH || '/')
+          npm run build
+
+      # Pick artifact path:
+      # - dist/ if Node build
+      # - public/ if it exists in a static repo
+      # - . (repo root) otherwise
+      - name: Resolve artifact path
+        id: artifact
+        run: |
+          if [ "${{ steps.detect.outputs.is_node }}" = "true" ] && [ -d "dist" ]; then
+            echo "path=dist" >> "$GITHUB_OUTPUT"
+          elif [ -d "public" ]; then
+            echo "path=public" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=." >> "$GITHUB_OUTPUT"
+          fi
+          echo "Using artifact path: $(cat $GITHUB_OUTPUT | sed -n 's/^path=//p')"
+
+      # SPA routing (optional): copy index.html to 404.html to support client-side routes
+      - name: Enable SPA fallback (optional)
+        if: steps.detect.outputs.is_node == 'true'
+        run: |
+          if [ -f "dist/index.html" ]; then
+            cp dist/index.html dist/404.html || true
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.artifact.outputs.path }}
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
