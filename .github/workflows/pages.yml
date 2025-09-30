@@ -2,7 +2,7 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]   # ← change if you use a different default branch
   workflow_dispatch:
 
 permissions:
@@ -12,7 +12,14 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
+
+env:
+  # ===== SET THIS =====
+  REPO_NAME: aggrak-site            # ← your repository name
+  NODE_VERSION: "20"                # Node LTS works fine
+  # If this is a user/organization site (username.github.io), set BASE_HREF="/" instead.
+  BASE_HREF: "/aggrak-site/"        # must match REPO_NAME for project pages
 
 jobs:
   build:
@@ -24,27 +31,24 @@ jobs:
       - name: Use Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
 
       - name: Install deps
         run: npm ci
 
-      - name: Build (with correct base-href)
-        run: npm run build:pages
-
-      # Copy SPA fallback (so deep links don't 404)
-      - name: Add 404.html fallback
+      # If you created a special config without budgets, use --configuration pages
+      - name: Build Angular (browser only)
         run: |
-          # find the Angular browser output folder (works for dist/app or dist/app/browser)
-          OUTDIR=$(node -e "const fs=require('fs'),p='dist';const d=fs.readdirSync(p).map(x=>p+'/'+x).find(x=>fs.existsSync(x+'/browser'))||p;console.log(fs.existsSync(d+'/browser')?d+'/browser':d)")
-          cp \"$OUTDIR/index.html\" \"$OUTDIR/404.html\"
-          echo "OUTDIR=$OUTDIR" >> $GITHUB_ENV
+          npx ng build --configuration production --base-href $BASE_HREF
 
-      - name: Upload artifact (ONLY the built site)
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.OUTDIR }}
+          path: dist/${{ env.REPO_NAME }}/browser
 
   deploy:
     needs: build
@@ -53,5 +57,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
