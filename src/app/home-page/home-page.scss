@@ -19,6 +19,9 @@ html, body {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: contain;  /* or: none */
+  overflow-y: auto; 
+
 }
 
 :host { display: block; }
@@ -33,11 +36,11 @@ section { margin: 0; }
   padding: 0 16px;
 }
 
-/* Enable snapping on the main scroller */
+/* stop trapping scroll inside <main> */
 main, .main {
-  height: 100svh;                 /* mobile-safe viewport */
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
+  height: auto;            /* was 100svh */
+  overflow: visible;       /* was auto */
+  scroll-snap-type: none;  /* disable vertical snap */
 }
 
 /* By default, only slide-marked sections fill the viewport (see .section--slide below) */
