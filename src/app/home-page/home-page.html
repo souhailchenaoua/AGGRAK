@@ -307,18 +307,65 @@
   </div>
 </section>
 
-  <!-- CONTACT (placeholder) -->
-  <section id="contact" class="section section--dark">
-    <div class="container">
-      <h2>Contact</h2>
-      <form class="contact-form" (submit)="$event.preventDefault()">
-        <input type="text" placeholder="Full Name" required />
-        <input type="email" placeholder="Email" required />
-        <textarea rows="4" placeholder="Your message"></textarea>
-        <button type="submit" class="btn btn--primary">Send</button>
-      </form>
+ <!-- FOOTER / CONTACT -->
+<footer id="contact" class="footer">
+  <div class="footer__wrap">
+
+    <!-- Brand -->
+    <div class="footer__brand">
+      <img src="assets/logo/aggrak.svg" alt="AGGRAK" class="footer__logo" />
     </div>
-  </section>
+
+    <!-- Links -->
+    <div class="footer__col">
+      <h3 class="footer__title">LINKS</h3>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Services -->
+    <div class="footer__col">
+      <h3 class="footer__title">SERVICES</h3>
+      <ul>
+        <li><a href="#">3pl Fulfillment</a></li>
+        <li><a href="#">Third Party Shipping</a></li>
+        <li><a href="#">3pl Warehouse</a></li>
+        <li><a href="#">Packaging Options</a></li>
+        <li><a href="#">E-Commerce</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer__col">
+      <h3 class="footer__title">CONTACT US</h3>
+      <p>
+        8900 New City, Saudi Arabia<br>
+        <a href="tel:+966561130244">+966 56 113 0244</a><br>
+        <a href="mailto:info@aggrak.com">info@aggrak.com</a>
+      </p>
+      <div class="footer__socials">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fas fa-times"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer__bottom">
+    <p>Copyright © 2025 <a href="https://aggrak.com">aggrak.com</a>. All Rights Reserved</p>
+    <div class="footer__links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms and Conditions</a>
+    </div>
+  </div>
+</footer>
+
 </main>
 
 <footer class="site-footer">
