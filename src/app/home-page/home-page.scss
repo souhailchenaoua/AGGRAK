@@ -66,6 +66,9 @@ section {
 ========================================= */
 
 .site-nav {
+  /* font for the whole nav */
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
   /* sticky full-width header */
   position: sticky;
   top: max(12px, env(safe-area-inset-top));
@@ -73,37 +76,35 @@ section {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  padding: 12px 24px;
+  padding: 20px 100px;
+  font-size: 1.05rem; // ~17px baseline inside nav
 
-  /* layout: brand left | nav shell right */
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
 
-  /* --- brand / logo --- */
   &__brand {
     display: flex;
     align-items: center;
+    padding-left: 3svw; // pushes nav shell slightly to the right
+
   }
 
   &__logo {
-    height: clamp(24px, 3.2vw, 38px);
+    height: clamp(64px, 4vw, 38px);
     width: auto;
     display: block;
     filter: drop-shadow(0 1px 0 rgba(0,0,0,.25));
   }
 
-  /* --- glass pill container (right aligned) --- */
   &__shell {
-    margin-left: auto; /* docks the pill to the RIGHT */
+    margin-left: auto;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: clamp(12px, 2.2vw, 24px);
-    padding: clamp(10px, 1.4vw, 14px) clamp(14px, 2vw, 22px);
+    padding: clamp(10px, 2vw, 14px) clamp(14px, 2.1vw, 22px);
     border-radius: 9999px;
-
-    /* glass gradient + blur */
     background:
       radial-gradient(120% 180% at 90% 50%, rgba(0,0,0,.55), rgba(0,0,0,.2) 60%),
       linear-gradient(90deg, rgba(0,0,0,.75), rgba(0,0,0,.35));
@@ -115,7 +116,6 @@ section {
       inset 0 1px 0 rgba(255,255,255,.08);
   }
 
-  /* --- desktop links & actions --- */
   &__links {
     display: flex;
     gap: clamp(18px, 3vw, 36px);
@@ -123,7 +123,6 @@ section {
     a {
       color: rgba(255,255,255,.92);
       text-decoration: none;
-      font-weight: 600;
       letter-spacing: .01em;
       padding: 8px 10px;
       border-radius: 10px;
@@ -150,7 +149,7 @@ section {
   .chev { opacity: .9; font-size: .9em; }
 
   &--light {
-    background: #fff; color: #111;
+    background: #fff; color: #ff0000;
     box-shadow: 0 6px 16px rgba(0,0,0,.25);
   }
   &--primary {
@@ -269,7 +268,7 @@ section {
 ========================================= */
 .hero {
   position: relative;
-  min-height: 75svh;          /* full-screen slide */
+  min-height: 95svh;          /* full-screen slide */
   color: $white;
   isolation: isolate;
   overflow: hidden;            /* hides edges from bg scale */
