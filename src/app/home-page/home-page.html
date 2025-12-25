@@ -22,23 +22,35 @@
           <button class="chip chip--light" aria-haspopup="listbox" aria-expanded="false">
             Eng <span class="chev">▾</span>
           </button>
-          <button class="chip chip--primary">
-            Register <span class="chev">▾</span>
-          </button>
+          <button class="chip chip--primary">Register <span class="chev">▾</span></button>
         </div>
         <!-- mobile menu button -->
-        <button class="site-nav__burger" aria-label="Open menu" aria-controls="mobile-menu"
-          [attr.aria-expanded]="isMobileMenuOpen" (click)="toggleMobileMenu()">
+        <button
+          class="site-nav__burger"
+          aria-label="Open menu"
+          aria-controls="mobile-menu"
+          [attr.aria-expanded]="isMobileMenuOpen"
+          (click)="toggleMobileMenu()"
+        >
           <span></span><span></span><span></span>
         </button>
-        <div class="site-nav__overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()" aria-hidden="true"></div>
-        <nav id="mobile-menu" class="site-nav__mobile" [class.is-open]="isMobileMenuOpen" [hidden]="!isMobileMenuOpen">
+        <div
+          class="site-nav__overlay"
+          *ngIf="isMobileMenuOpen"
+          (click)="closeMobileMenu()"
+          aria-hidden="true"
+        ></div>
+        <nav
+          id="mobile-menu"
+          class="site-nav__mobile"
+          [class.is-open]="isMobileMenuOpen"
+          [hidden]="!isMobileMenuOpen"
+        >
           <a href="#home" (click)="onMobileNavClick()">Home</a>
           <a href="#about" (click)="onMobileNavClick()">About us</a>
           <a href="#services" (click)="onMobileNavClick()">Services</a>
           <a href="#contact" (click)="onMobileNavClick()">Contact</a>
         </nav>
-
       </div>
 
       <!-- mobile menu (optional; populate later) -->
@@ -50,27 +62,22 @@
       </nav>
     </header>
 
-
     <!-- Hero content -->
     <div class="hero__content">
       <h1 class="hero__title">
-        TURN YOUR EMPTY SPACE INTO
-        REVENUE, BOOK WAREHOUSES ON-DEMAND <br/>
-       
+        Find a warehouse in minutes<br />
       </h1>
 
       <p class="hero__subtitle">
-        Aggrak offers secure warehousing, flexible storage options, and expert moving services
-        to protect your belongings and support your business growth.
+        Aggrak instantly connects you with certified warehouses across
+        Saudi Arabia based on our space, service, & fulfillment needs.
       </p>
 
       <div class="hero__cta">
-        <button class="btn btn--primary">Get Onboarded</button>
-        <button class="btn btn--ghost">Track your Storage</button>
+        <button class="btn btn--primary">Find a warehouse</button>
+        <button class="btn btn--ghost">List a warehouse</button>
       </div>
     </div>
-
-
   </section>
 
   <!-- ABOUT US -->
@@ -93,13 +100,12 @@
     </div>
   </section>
 
-
   <!-- NETWORK / STATS -->
   <section id="network" class="network">
     <div class="network__bg" aria-label="Warehouse operator"></div>
     <div class="network__inner">
       <div class="network__panel">
-        <h3 class="network__title">Saudi Arabia’s Leading<br>Warehouse Network</h3>
+        <h3 class="network__title">Saudi Arabia’s Leading<br />Warehouse Network</h3>
         <div class="network__stats">
           <div class="stat">
             <div class="stat__num">1M+</div>
@@ -111,7 +117,7 @@
           </div>
           <div class="stat">
             <div class="stat__num">20+</div>
-            <div class="stat__label">Years Of<br>Experience</div>
+            <div class="stat__label">Years Of<br />Experience</div>
           </div>
           <div class="stat">
             <div class="stat__num">10+</div>
@@ -125,7 +131,7 @@
       </div>
     </div>
   </section>
-  
+
   <!-- SERVICES -->
   <section id="services" class="services services--gray">
     <div class="services__wrap">
@@ -142,50 +148,45 @@
           <div class="service__head">
             <span class="service__num">01</span>
             <h3 class="service__name">DRY WAREHOUSE</h3>
-            <br>
-            <p class="service__desc">
-              Safe and organized storage for non-perishable goods.
-            </p>
-            <br>
+            <br />
+            <p class="service__desc">Safe and organized storage for non-perishable goods.</p>
+            <br />
             <button class="btn btn--primary">Read More</button>
           </div>
-
-
         </div>
 
         <figure class="service__image">
-          <img src="assets/services/dry-warehouse.jpg" alt="Dry warehouse storage">
+          <img src="assets/services/dry-warehouse.jpg" alt="Dry warehouse storage" />
         </figure>
       </div>
     </div>
   </section>
 
-
   <!-- SERVICES: Chemical Storage -->
   <section class="services services--red" id="chemical-storage">
     <div class="services__wrap">
-
       <div class="service service--reverse">
         <div class="service__info">
           <div class="service__head">
             <span class="service2__num">02</span>
 
             <h3 class="service__name">CHEMICAL STORAGE</h3>
-            <br>
+            <br />
             <p class="service__desc">
               Secure Facilities Designed For Hazardous And Sensitive Materials
             </p>
             <div></div>
 
             <button class="btn btn--primary">Read More</button>
-
           </div>
-
         </div>
 
         <figure class="service__image">
           <!-- replace with your asset -->
-          <img src="assets/services/chemical-storage.jpg" alt="Chemical storage tanks and safety systems">
+          <img
+            src="assets/services/chemical-storage.jpg"
+            alt="Chemical storage tanks and safety systems"
+          />
         </figure>
       </div>
     </div>
@@ -198,19 +199,16 @@
         <div class="service__info">
           <div class="service__head">
             <span class="service__num">03</span>
-            <h3 class="service__name">REFRIGERATED & 
-              <br>FROZEN WAREHOUSE</h3>
+            <h3 class="service__name">REFRIGERATED & <br />FROZEN WAREHOUSE</h3>
             <div></div>
-            <p class="service__desc">
-              Temprature-Controlled Storage For Perishable Products
-            </p>
-            <br>
+            <p class="service__desc">Temprature-Controlled Storage For Perishable Products</p>
+            <br />
             <button class="btn btn--primary">Read More</button>
           </div>
         </div>
 
         <figure class="service__image">
-          <img src="assets/services/FrozenProducts.jpg" alt="Dry warehouse storage">
+          <img src="assets/services/FrozenProducts.jpg" alt="Dry warehouse storage" />
         </figure>
       </div>
     </div>
@@ -219,151 +217,142 @@
   <!-- ROBUST FULFILLMENT FOR E-COMMERCE SERVICES -->
   <section class="services services--red" id="chemical-storage">
     <div class="services__wrap">
-
       <div class="service service--reverse">
         <div class="service__info">
           <div class="service__head">
             <span class="service2__num">04</span>
 
-            <h3 class="service__name">ROBUST FULFILLMENT <br>
-            FOR E-COMMERCE SERVICES</h3>
-            <br>
-            <p class="service__desc">
-              Fast, Reliable, End-To-End Order Processing And Delivery
-            </p>
+            <h3 class="service__name">
+              ROBUST FULFILLMENT <br />
+              FOR E-COMMERCE SERVICES
+            </h3>
+            <br />
+            <p class="service__desc">Fast, Reliable, End-To-End Order Processing And Delivery</p>
             <div></div>
 
             <button class="btn btn--primary">Read More</button>
-
           </div>
-
         </div>
 
         <figure class="service__image">
           <!-- replace with your asset -->
-          <img src="assets/services/EcommerceServices.jpg" alt="">
+          <img src="assets/services/EcommerceServices.jpg" alt="" />
         </figure>
       </div>
     </div>
   </section>
-<!-- FEATURES -->
-<section id="features" class="section section--gray">
-  <div class="section__wrap">
-    <p class="section__eyebrow">Features</p>
-    <h2 class="section__title">SWIFT SOLUTIONS,<br>SEAMLESS LOGISTICS</h2>
+  <!-- FEATURES -->
+  <section id="features" class="section section--gray">
+    <div class="section__wrap">
+      <p class="section__eyebrow">Features</p>
+      <h2 class="section__title">SWIFT SOLUTIONS,<br />SEAMLESS LOGISTICS</h2>
 
-    <div class="features-grid">
-      <article class="card">
-        <div class="card__icon"><img src="assets/icons/catalogue.svg" alt=""></div>
-        <h3 class="card__title">Catalogue<br>Management</h3>
-        <p class="card__body">Keep track of all items stored within the warehouse.</p>
-      </article>
+      <div class="features-grid">
+        <article class="card">
+          <div class="card__icon"><img src="assets/icons/catalogue.svg" alt="" /></div>
+          <h3 class="card__title">Catalogue<br />Management</h3>
+          <p class="card__body">Keep track of all items stored within the warehouse.</p>
+        </article>
 
-      <article class="card">
-        <div class="card__icon"><img src="assets/icons/warehouse.svg" alt=""></div>
-        <h3 class="card__title">Multiple<br>Warehouse</h3>
-        <p class="card__body">Keep track of all items stored within the warehouse.</p>
-      </article>
+        <article class="card">
+          <div class="card__icon"><img src="assets/icons/warehouse.svg" alt="" /></div>
+          <h3 class="card__title">Multiple<br />Warehouse</h3>
+          <p class="card__body">Keep track of all items stored within the warehouse.</p>
+        </article>
 
-      <article class="card">
-        <div class="card__icon"><img src="assets/icons/inbound-outbound.svg" alt=""></div>
-        <h3 class="card__title">Inbound &amp;<br>Outbound</h3>
-        <p class="card__body">Keep track of all items stored within the warehouse.</p>
-      </article>
+        <article class="card">
+          <div class="card__icon"><img src="assets/icons/inbound-outbound.svg" alt="" /></div>
+          <h3 class="card__title">Inbound &amp;<br />Outbound</h3>
+          <p class="card__body">Keep track of all items stored within the warehouse.</p>
+        </article>
 
-      <article class="card">
-        <div class="card__icon"><img src="assets/icons/batch-serial.svg" alt=""></div>
-        <h3 class="card__title">Batch, Serial<br>&amp; Expiry</h3>
-        <p class="card__body">Keep track of all items stored within the warehouse.</p>
-      </article>
+        <article class="card">
+          <div class="card__icon"><img src="assets/icons/batch-serial.svg" alt="" /></div>
+          <h3 class="card__title">Batch, Serial<br />&amp; Expiry</h3>
+          <p class="card__body">Keep track of all items stored within the warehouse.</p>
+        </article>
 
-      <article class="card">
-        <div class="card__icon"><img src="assets/icons/fifo.svg" alt=""></div>
-        <h3 class="card__title">FIFO &amp; FEFO<br>Strategies</h3>
-        <p class="card__body">Keep track of all items stored within the warehouse.</p>
-      </article>
+        <article class="card">
+          <div class="card__icon"><img src="assets/icons/fifo.svg" alt="" /></div>
+          <h3 class="card__title">FIFO &amp; FEFO<br />Strategies</h3>
+          <p class="card__body">Keep track of all items stored within the warehouse.</p>
+        </article>
 
-      <article class="card">
-        <div class="card__icon"><img src="assets/icons/mobile-pick.svg" alt=""></div>
-        <h3 class="card__title">Mobile-based<br>Picking &amp; Packing</h3>
-        <p class="card__body">Keep track of all items stored within the warehouse.</p>
-      </article>
-    </div>
-  </div>
-</section>
-<!-- TRACK SHIPMENT -->
-<section id="track" class="track">
-  <div class="track__wrap">
-    <h2 class="track__title">TRACK YOUR SHIPMENT</h2>
-
-    <form class="track__form" role="search">
-      <input 
-        type="text" 
-        placeholder="Enter Tracking Number" 
-        aria-label="Tracking Number"
-      />
-      <button type="submit">Search</button>
-    </form>
-  </div>
-</section>
-
- <!-- FOOTER / CONTACT -->
-<footer id="contact" class="footer">
-  <div class="footer__wrap">
-
-    <!-- Brand -->
-    <div class="footer__brand">
-      <img src="assets/logo/aggrak.svg" alt="AGGRAK" class="footer__logo" />
-    </div>
-
-    <!-- Links -->
-    <div class="footer__col">
-      <h3 class="footer__title">LINKS</h3>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-
-    <!-- Services -->
-    <div class="footer__col">
-      <h3 class="footer__title">SERVICES</h3>
-      <ul>
-        <li><a href="#">3pl Fulfillment</a></li>
-        <li><a href="#">Third Party Shipping</a></li>
-        <li><a href="#">3pl Warehouse</a></li>
-        <li><a href="#">Packaging Options</a></li>
-        <li><a href="#">E-Commerce</a></li>
-      </ul>
-    </div>
-
-    <!-- Contact -->
-    <div class="footer__col">
-      <h3 class="footer__title">CONTACT US</h3>
-      <p>
-        8900 New City, Saudi Arabia<br>
-        <a href="tel:+966561130244">+966 56 113 0244</a><br>
-        <a href="mailto:info@aggrak.com">info@aggrak.com</a>
-      </p>
-      <div class="footer__socials">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fas fa-times"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <article class="card">
+          <div class="card__icon"><img src="assets/icons/mobile-pick.svg" alt="" /></div>
+          <h3 class="card__title">Mobile-based<br />Picking &amp; Packing</h3>
+          <p class="card__body">Keep track of all items stored within the warehouse.</p>
+        </article>
       </div>
     </div>
-  </div>
+  </section>
+  <!-- TRACK SHIPMENT -->
+  <section id="track" class="track">
+    <div class="track__wrap">
+      <h2 class="track__title">TRACK YOUR SHIPMENT</h2>
 
-  <!-- Bottom Bar -->
-  <div class="footer__bottom">
-    <p>Copyright © 2025 <a href="https://aggrak.com">aggrak.com</a>. All Rights Reserved</p>
-    <div class="footer__links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms and Conditions</a>
+      <form class="track__form" role="search">
+        <input type="text" placeholder="Enter Tracking Number" aria-label="Tracking Number" />
+        <button type="submit">Search</button>
+      </form>
     </div>
-  </div>
-</footer>
+  </section>
 
+  <!-- FOOTER / CONTACT -->
+  <footer id="contact" class="footer">
+    <div class="footer__wrap">
+      <!-- Brand -->
+      <div class="footer__brand">
+        <img src="assets/logo/aggrak.svg" alt="AGGRAK" class="footer__logo" />
+      </div>
+
+      <!-- Links -->
+      <div class="footer__col">
+        <h3 class="footer__title">LINKS</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div class="footer__col">
+        <h3 class="footer__title">SERVICES</h3>
+        <ul>
+          <li><a href="#">3pl Fulfillment</a></li>
+          <li><a href="#">Third Party Shipping</a></li>
+          <li><a href="#">3pl Warehouse</a></li>
+          <li><a href="#">Packaging Options</a></li>
+          <li><a href="#">E-Commerce</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer__col">
+        <h3 class="footer__title">CONTACT US</h3>
+        <p>
+          8900 New City, Saudi Arabia<br />
+          <a href="tel:+966561130244">+966 56 113 0244</a><br />
+          <a href="mailto:info@aggrak.com">info@aggrak.com</a>
+        </p>
+        <div class="footer__socials">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fas fa-times"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer__bottom">
+      <p>Copyright © 2025 <a href="https://aggrak.com">aggrak.com</a>. All Rights Reserved</p>
+      <div class="footer__links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms and Conditions</a>
+      </div>
+    </div>
+  </footer>
 </main>
