@@ -106,8 +106,8 @@ section {
     padding: clamp(10px, 2vw, 14px) clamp(14px, 2.1vw, 22px);
     border-radius: 9999px;
     background:
-      radial-gradient(120% 180% at 90% 50%, rgba(0,0,0,.55), rgba(0,0,0,.2) 60%),
-      linear-gradient(90deg, rgba(0,0,0,.75), rgba(0,0,0,.35));
+      radial-gradient(120% 180% at 90% 50%, rgba(255, 255, 255, 0.075), rgba(0, 0, 0, 0.041) 60%),
+      linear-gradient(90deg, rgba(61, 60, 60, 0.336), rgba(0,0,0,.35));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,.10);
@@ -473,8 +473,8 @@ section {
 }
 
 .hero__title {
-  font-weight: 800;
-  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 1000;
+  font-size: clamp(48px, 6vw, 72px);
   line-height: 1;
   letter-spacing: .01em;
   text-transform: uppercase;
