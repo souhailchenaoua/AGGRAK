@@ -268,27 +268,35 @@ section {
 ========================================= */
 .hero {
   position: relative;
-  min-height: 95svh;          /* full-screen slide */
+  min-height: 95svh;
   color: $white;
   isolation: isolate;
-  overflow: hidden;            /* hides edges from bg scale */
-  background: #000;            /* safety color */
+  overflow: hidden;
+  background: #000;
 
   &__bg {
-    position: absolute; inset: 0;
-    background-image: url('../../assets/hero/warehouse-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    position: absolute;
+    inset: 0;
+
+    background:
+      /* glow accents */
+      radial-gradient(110% 120% at 78% 18%, rgba(142, 0, 209, 0.45), transparent 58%),
+      radial-gradient(120% 130% at 15% 85%, rgba(73, 0, 107, 0.55), transparent 60%),
+
+      /* main gradient */
+      linear-gradient(135deg, #49006B 0%, #8E00D1 55%, #2a003d 100%);
+
     transform: scale(1);
     will-change: transform;
   }
 
   &__overlay {
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: 0;
+    /* lighter overlay since background is already dark */
     background:
-      radial-gradient(60% 80% at 65% 60%, rgba(0, 0, 0, 0), rgba(0,0,0,.6) 70%),
-      linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0, 0, 0, 0) 70%);
+      radial-gradient(60% 80% at 65% 60%, rgba(0, 0, 0, 0), rgba(0,0,0,.35) 70%),
+      linear-gradient(180deg, rgba(0,0,0,.2) 0%, rgba(0,0,0,0) 70%);
     mix-blend-mode: multiply;
   }
 
@@ -443,7 +451,15 @@ section {
 .site-nav__mobile a:hover {
   color: #e83b38; /* accent red */
 }
-
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 140% at 80% 20%, rgba(168, 85, 247, 0.35), transparent 60%),
+    radial-gradient(120% 140% at 10% 80%, rgba(99, 102, 241, 0.35), transparent 60%),
+    linear-gradient(135deg, #3b0764 0%, #4c1d95 45%, #312e81 100%);
+  z-index: 0;
+}
 /* Optional: when header is dark, invert burger bars */
 .header--dark .site-nav__burger span { background: #fff; }
 
