@@ -347,6 +347,20 @@ section {
     gap: 0;
   }
 }
+.hero-divider {
+  width: 100%;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+
+  position: relative;
+  z-index: 10;
+}
 
 /* =========================================
    HERO
@@ -364,7 +378,7 @@ section {
     position: absolute;
     inset: 0;
     z-index: 0;
-
+    pointer-events: none;
     background:
       radial-gradient(110% 120% at 78% 18%, rgba(142, 0, 209, 0.45), transparent 58%),
       radial-gradient(120% 130% at 15% 85%, rgba(73, 0, 107, 0.55), transparent 60%),
