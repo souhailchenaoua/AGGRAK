@@ -729,50 +729,177 @@ section {
 /* =========================================
    ABOUT SECTION (as slide)
 ========================================= */
-.about {
-  background: #fff;
-  color: #0b0b0b;
-  padding: clamp(56px, 8vw, 96px) 16px;
+.how-it-works {
+  padding: clamp(72px, 8vw, 110px) 0;
+  background: #f4f2f1;
+  color: #101010;
 
-  &__wrap {
-    max-width: 920px;
+  &__container {
+    width: min(1160px, 92vw);
     margin: 0 auto;
     text-align: center;
   }
 
-  &__eyebrow {
-    margin: 0 0 12px;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: rgba(0, 0, 0, 0.65);
-  }
-
   &__title {
-    margin: 0 0 18px;
+    margin: 0 0 clamp(38px, 4.2vw, 56px);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     font-weight: 900;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
-    line-height: 1.1;
-    font-size: clamp(26px, 5.2vw, 44px);
+    font-size: clamp(28px, 3.2vw, 44px);
+    line-height: 1.05;
   }
 
-  &__lead {
-    max-width: 75ch;
-    margin: 0 auto 22px;
-    font-size: clamp(14px, 1.45vw, 16px);
-    line-height: 1.8;
-    color: rgba(0, 0, 0, 0.78);
-    text-wrap: balance;
+  &__steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(18px, 2.2vw, 28px);
+    align-items: start;
+    padding-top: 10px;
+  }
+
+  /* Rail behind everything */
+  &__rail {
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    top: 54px;
+    height: 2px;
+    background: #4a0a76;
+    opacity: 0.85;
+    z-index: 0;
   }
 
   &__cta {
-    display: inline-block;
-    padding-inline: 24px;
-    border-radius: 9999px;
+    margin-top: clamp(42px, 5vw, 62px);
+    display: flex;
+    justify-content: center;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    background: #4a0a76;
+    color: #fff;
+    text-decoration: none;
     font-weight: 700;
-    font-size: 14px;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    }
+  }
+
+  &__arrow {
+    font-size: 18px;
     line-height: 1;
+  }
+}
+
+.how-step {
+  position: relative;
+  z-index: 2; // <- MUST be above rail
+  display: grid;
+  justify-items: center;
+
+  &__icon {
+    position: relative; // anchor for accent
+    z-index: 2;         // ensure above rail
+    width: 86px;
+    height: 86px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: #f4f2f1;
+    border: 3px solid #4a0a76;
+    margin-bottom: 18px;
+
+    overflow: visible;
+    transform: translateZ(0); // creates clean stacking context
+  }
+
+  &__svg {
+    width: 34px;
+    height: 34px;
+    color: #4a0a76;
+    display: block;
+  }
+
+  /* Red square - moved inward and above rail */
+  &__accent {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: #ff3b3b;
+    border-radius: 3px;
+
+    /* moved inward so it doesn't touch the rail/circle edge */
+    left: 25px;
+    bottom: 22px;
+
+    z-index: 3; // above everything inside icon
+    margin: 0;
+    padding: 0;
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+
+  /* Kill any old modifier behavior completely */
+  &__accent--stack,
+  &__accent--box,
+  &__accent--dash {
+    width: 14px !important;
+    height: 14px !important;
+    left: 24px !important;
+    bottom: 22px !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  &__heading {
+    margin: 0 0 12px;
+    color: #4a0a76;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 1.15;
+    text-align: center;
+  }
+
+  &__copy {
+    margin: 0;
+    max-width: 250px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgba(0, 0, 0, 0.72);
+    text-align: center;
+  }
+}
+
+
+/* Responsive */
+@media (max-width: 980px) {
+  .how-it-works__steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 38px;
+  }
+
+  .how-it-works__rail {
+    display: none; // timeline becomes grid; rail isn't needed
+  }
+}
+
+@media (max-width: 520px) {
+  .how-it-works__steps {
+    grid-template-columns: 1fr;
   }
 }
 
