@@ -354,7 +354,7 @@ section {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.014),
     transparent
   );
 
@@ -367,7 +367,7 @@ section {
 ========================================= */
 .hero {
   position: relative;
-  min-height: 95svh;
+  min-height:100svh;
   color: $white;
   isolation: isolate;
   overflow: hidden;
@@ -522,15 +522,21 @@ section {
 
 /* Buttons (use your existing vars) */
 .btn--primary {
-  background: linear-gradient(180deg, $red, $red-600);
+  background: $red; // ← remove gradient
   color: $white;
-  box-shadow: 0 6px 18px rgba(232, 59, 56, 0.35);
   padding: 14px 28px;
   font-weight: 700;
   border-radius: 999px;
+  border: none;
+
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28); // neutral shadow
+
+  transition: transform .2s ease, box-shadow .2s ease;
 
   &:hover {
-    background: linear-gradient(180deg, $red-600, $red-700);
+    background: $red-600;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
   }
 }
 
@@ -660,8 +666,65 @@ section {
 }
 
 .site-nav__mobile a:hover {
-  color: #e83b38;
+  color: hsl(1, 79%, 56%);
 }
+
+.hero-features-inline {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 28px;
+  padding-bottom: 28px;
+  font-family: ui-sans-serif, system-ui, -apple-system,
+               "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #ff3b3b;
+  color: #ffffff;
+  flex: 0 0 40px;
+}
+
+.feature-icon__svg {
+  width: 20px;   // this size is key
+  height: 20px;
+  display: block;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.feature-text strong {
+  font-size: 14px;
+  font-weight: 600;   // NOT 700 – closer to your screenshot
+  letter-spacing: 0.01em;
+}
+.feature-text span {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.feature-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
 /* =========================================
    ABOUT SECTION (as slide)
 ========================================= */
