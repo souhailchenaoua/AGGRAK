@@ -76,31 +76,21 @@ section {
   }
 }
 
-/* =========================================
-   NAV (glass pill, sticky, mobile burger)
-   Drop-in replacement for your current block
-========================================= */
-
 .site-nav {
-  /* font for the whole nav */
-  font-family:
-    "Inter",
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
 
-  /* sticky full-width header */
   position: sticky;
   top: max(12px, env(safe-area-inset-top));
   z-index: 50;
   width: 100%;
   max-width: 100%;
   margin: 0;
-  padding: 20px 100px;
-  font-size: 1.05rem; // ~17px baseline inside nav
 
+  /* ✅ FIX: responsive padding instead of 100px */
+  padding: 20px clamp(14px, 4vw, 100px);
+
+  font-size: 1.05rem;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
@@ -108,11 +98,14 @@ section {
   &__brand {
     display: flex;
     align-items: center;
-    padding-left: 3svw; // pushes nav shell slightly to the right
+
+    /* ✅ FIX: remove extra push on small screens */
+    padding-left: clamp(0px, 1.5vw, 3svw);
   }
 
   &__logo {
-    height: clamp(72px, 4vw, 38px);
+    /* ✅ FIX: the clamp was reversed (72px min made it huge) */
+    height: clamp(38px, 4vw, 72px);
     width: auto;
     display: block;
     filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25));
@@ -127,14 +120,20 @@ section {
     padding: clamp(10px, 2vw, 14px) clamp(14px, 2.1vw, 22px);
     border-radius: 9999px;
     background:
-      radial-gradient(120% 180% at 90% 50%, rgba(255, 255, 255, 0.075), rgba(0, 0, 0, 0.041) 60%),
+      radial-gradient(
+        120% 180% at 90% 50%,
+        rgba(255, 255, 255, 0.075),
+        rgba(0, 0, 0, 0.041) 60%
+      ),
       linear-gradient(90deg, rgba(61, 60, 60, 0.336), rgba(0, 0, 0, 0.35));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow:
-      0 10px 40px rgba(0, 0, 0, 0.45),
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45),
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    /* ✅ FIX: prevent pill from overflowing */
+    max-width: 100%;
   }
 
   &__links {
@@ -147,9 +146,7 @@ section {
       letter-spacing: 0.01em;
       padding: 8px 10px;
       border-radius: 10px;
-      transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
+      transition: background-color 0.2s ease, color 0.2s ease;
 
       &:hover {
         background: rgba(255, 255, 255, 0.08);
@@ -179,10 +176,7 @@ section {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition:
-    transform 0.05s ease,
-    filter 0.2s ease,
-    background-color 0.2s ease;
+  transition: transform 0.05s ease, filter 0.2s ease, background-color 0.2s ease;
 
   &:active {
     transform: translateY(1px);
@@ -211,12 +205,11 @@ section {
    MOBILE NAV (burger + panel)
 ========================= */
 
-/* perfect hamburger → X (WHITE) */
 .site-nav__burger {
   position: relative;
   width: 44px;
   height: 44px;
-  display: none; /* hidden on desktop, shown on mobile */
+  display: none;
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -235,9 +228,7 @@ section {
     background: #fff;
     border-radius: 2px;
     transform-origin: center;
-    transition:
-      transform 0.25s ease,
-      opacity 0.18s ease;
+    transition: transform 0.25s ease, opacity 0.18s ease;
     transform: translate(-50%, -50%);
   }
   span:nth-child(1) {
@@ -263,7 +254,6 @@ section {
   }
 }
 
-/* dark overlay behind the panel */
 .site-nav__overlay {
   position: fixed;
   inset: 0;
@@ -271,7 +261,6 @@ section {
   z-index: 1000;
 }
 
-/* slide-in panel */
 .site-nav__mobile {
   position: fixed;
   top: 0;
@@ -311,18 +300,12 @@ section {
 }
 
 /* =========================
-   RESPONSIVE
+   RESPONSIVE NAV
 ========================= */
-
-/* Tablet & below: stack / simplify */
 @media (max-width: 980px) {
   .site-nav {
-    grid-template-columns: auto 1fr;
     row-gap: 10px;
 
-    &__brand {
-      justify-content: start;
-    }
     &__shell {
       gap: 12px;
       padding: 10px 14px;
@@ -330,7 +313,6 @@ section {
   }
 }
 
-/* Phone: hide desktop links/actions, show burger on right */
 @media (max-width: 640px) {
   .site-nav__links,
   .site-nav__actions {
@@ -341,19 +323,21 @@ section {
     display: inline-block;
   }
 
-  /* keep the pill narrow on phones (just holds the burger) */
   .site-nav__shell {
     justify-content: flex-end;
     padding: 6px 8px;
     gap: 0;
   }
 }
+
+/* =========================================
+   HERO DIVIDER (unchanged)
+========================================= */
 .hero-divider {
   width: 100%;
   height: 1px;
   position: relative;
   z-index: 10;
-
   background: linear-gradient(
     90deg,
     transparent,
@@ -365,17 +349,16 @@ section {
 }
 
 /* =========================================
-   HERO
+   HERO (MOBILE SAFE)
 ========================================= */
 .hero {
   position: relative;
-  min-height:100svh;
+  min-height: 100svh;
   color: $white;
   isolation: isolate;
   overflow: hidden;
   background: #000;
 
-  /* ===== Background (Figma purples) ===== */
   &__bg {
     position: absolute;
     inset: 0;
@@ -385,9 +368,6 @@ section {
       radial-gradient(110% 120% at 78% 18%, rgba(142, 0, 209, 0.45), transparent 58%),
       radial-gradient(120% 130% at 15% 85%, rgba(73, 0, 107, 0.55), transparent 60%),
       linear-gradient(135deg, #49006b 0%, #8e00d1 55%, #2a003d 100%);
-
-    transform: scale(1);
-    will-change: transform;
   }
 
   &__overlay {
@@ -395,23 +375,20 @@ section {
     inset: 0;
     z-index: 1;
     pointer-events: none;
-
     background:
       radial-gradient(60% 80% at 65% 60%, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.28) 70%),
       linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
     mix-blend-mode: multiply;
   }
 
-  /* ===== Full-width hero content: left copy + far-right map ===== */
   &__content {
     position: relative;
     z-index: 2;
     width: 100%;
 
-    /* control distance from viewport edges */
-    padding-left: clamp(18px, 5vw, 80px);
-    padding-right: clamp(18px, 5vw, 80px);
-    padding-top: clamp(32px, 8vh, 84px);
+    /* ✅ FIX: consistent mobile-safe padding */
+    padding-inline: clamp(16px, 4vw, 80px);
+    padding-top: clamp(28px, 8vh, 84px);
     padding-bottom: clamp(24px, 6vh, 56px);
   }
 
@@ -422,59 +399,48 @@ section {
     column-gap: clamp(24px, 4vw, 72px);
     row-gap: clamp(22px, 4vw, 40px);
 
-    /* mobile default: stacked */
+    /* default stacked */
     grid-template-columns: 1fr;
   }
 
   &__copy {
     justify-self: start;
-    max-width: 72ch;
-    margin-left: 70px;
+    max-width: 95ch;
+
+    /* ✅ FIX: kill hard left margin on small screens */
+    margin-left: 0;
   }
 
   &__title {
-    font-family:
-      "Space Grotesk",
-      system-ui,
-      -apple-system,
-      Segoe UI,
-      Roboto,
-      "Helvetica Neue",
-      Arial,
-      sans-serif;
-
-    font-weight: 700; /* Bold */
-    font-size: 64px; /* exact */
-    line-height: 72px; /* exact */
-    letter-spacing: 0; /* exact */
+    font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
     text-transform: uppercase;
-
     color: #ffffff;
+    margin: 0 0 18px;
 
-    margin: 0 0 24px;
-    max-width: 18ch; /* controls line breaks like Figma */
+    /* ✅ FIX: responsive sizing */
+    font-size: clamp(40px, 9.8vw, 86px);
+    line-height: 0.95;
+
+    /* ✅ FIX: prevent overflow */
+    max-width: 18ch;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    text-wrap: balance;
   }
 
   &__subtitle {
-    font-family:
-      "Space Grotesk",
-      system-ui,
-      -apple-system,
-      Segoe UI,
-      Roboto,
-      "Helvetica Neue",
-      Arial,
-      sans-serif;
-
-    font-weight: 400; /* Regular */
-    font-size: 20px; /* exact */
-    line-height: 36px; /* exact */
-    letter-spacing: 0; /* exact */
-    text-transform: none; /* Title case comes from content, not CSS */
-
+    font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
     color: rgba(255, 255, 255, 0.9);
     max-width: 72ch;
-    margin: 0 0 24px;
+    margin: 0 0 22px;
+
+    /* ✅ FIX: responsive subtitle */
+    font-size: clamp(15px, 4.2vw, 20px);
+    line-height: 1.7;
   }
 
   &__cta {
@@ -493,7 +459,7 @@ section {
   &__map {
     width: min(890px, 42vw);
     max-width: 100%;
-    margin-right: clamp(28px, 6vw, 96px);
+    margin-right: clamp(0px, 6vw, 96px); /* ✅ FIX: no forced right spacing */
   }
 
   &__map svg {
@@ -502,14 +468,28 @@ section {
     display: block;
   }
 
-  /* ===== Desktop: two columns, copy left edge, map far right ===== */
+  /* Desktop: two columns */
   @media (min-width: 992px) {
     &__grid {
       grid-template-columns: 1fr 1fr;
     }
+
+    /* ✅ keep your desktop offset only on desktop */
+    &__copy {
+      margin-left: 74px;
+    }
+
+    &__title {
+      font-size: 86px;
+      line-height: 72px;
+    }
+
+    &__map {
+      margin-right: clamp(28px, 6vw, 96px);
+    }
   }
 
-  /* ===== Mobile: map below and centered ===== */
+  /* Mobile: map below and centered */
   @media (max-width: 991px) {
     &__visual {
       justify-self: center;
@@ -522,18 +502,16 @@ section {
   }
 }
 
-/* Buttons (use your existing vars) */
+/* Buttons */
 .btn--primary {
-  background: $red; // ← remove gradient
+  background: $red;
   color: $white;
   padding: 14px 28px;
   font-weight: 700;
   border-radius: 999px;
   border: none;
-
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28); // neutral shadow
-
-  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     background: $red-600;
@@ -556,129 +534,14 @@ section {
   }
 }
 
-/* Perfect hamburger → X */
-.site-nav__burger {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  display: inline-block;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  z-index: 1002;
-
-  --bar-w: 24px;
-  --bar-h: 2px;
-  --bar-off: 7px;
-
-  span {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: var(--bar-w);
-    height: var(--bar-h);
-    background: #fff;
-    border-radius: 2px;
-    transform-origin: center;
-    transition:
-      transform 0.25s ease,
-      opacity 0.18s ease;
-    transform: translate(-50%, -50%);
-  }
-
-  span:nth-child(1) {
-    transform: translate(-50%, calc(-50% - var(--bar-off)));
-  }
-  span:nth-child(2) {
-    transform: translate(-50%, -50%);
-  }
-  span:nth-child(3) {
-    transform: translate(-50%, calc(-50% + var(--bar-off)));
-  }
-
-  &[aria-expanded="true"] {
-    span:nth-child(1) {
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-    span:nth-child(2) {
-      opacity: 0;
-    }
-    span:nth-child(3) {
-      transform: translate(-50%, -50%) rotate(-45deg);
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .site-nav__burger span {
-    transition: none;
-  }
-}
-
-/* hide burger on desktop */
-@media (min-width: 992px) {
-  .site-nav__burger {
-    display: none;
-  }
-  .site-nav__mobile {
-    display: none !important;
-  }
-}
-
-/* show burger on mobile */
-@media (max-width: 991px) {
-  .site-nav__links,
-  .site-nav__actions {
-    display: none;
-  }
-}
-
-/* Overlay behind mobile menu */
-.site-nav__overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-/* Mobile menu panel */
-.site-nav__mobile {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: min(80vw, 320px);
-  height: 100vh;
-  background: #111;
-  padding: 80px 20px;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  z-index: 1001;
-}
-
-.site-nav__mobile.is-open {
-  transform: translateX(0);
-}
-
-.site-nav__mobile a {
-  display: block;
-  padding: 12px 0;
-  font-weight: 700;
-  color: #fff;
-  text-decoration: none;
-}
-
-.site-nav__mobile a:hover {
-  color: hsl(1, 79%, 56%);
-}
-
+/* Features row (unchanged but mobile wrap) */
 .hero-features-inline {
   display: flex;
   align-items: center;
   gap: 24px;
   margin-top: 28px;
   padding-bottom: 28px;
-  font-family: ui-sans-serif, system-ui, -apple-system,
-               "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  flex-wrap: wrap; /* ✅ FIX: prevents overflow on phones */
 }
 
 .feature-item {
@@ -700,7 +563,7 @@ section {
 }
 
 .feature-icon__svg {
-  width: 20px;   // this size is key
+  width: 20px;
   height: 20px;
   display: block;
 }
@@ -713,9 +576,10 @@ section {
 
 .feature-text strong {
   font-size: 14px;
-  font-weight: 600;   // NOT 700 – closer to your screenshot
+  font-weight: 600;
   letter-spacing: 0.01em;
 }
+
 .feature-text span {
   font-size: 13px;
   opacity: 0.85;
@@ -725,6 +589,13 @@ section {
   width: 1px;
   height: 32px;
   background: rgba(255, 255, 255, 0.35);
+}
+
+/* On very small phones, hide dividers so it doesn’t look broken */
+@media (max-width: 420px) {
+  .feature-divider {
+    display: none;
+  }
 }
 
 /* =========================================
