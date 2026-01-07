@@ -1660,9 +1660,13 @@ section {
     "Segoe UI", Roboto, "Helvetica Neue", Arial;
 
   background:
-    radial-gradient(1100px 420px at 50% -20%, rgba(255,255,255,.18), rgba(255,255,255,0) 60%),
-    radial-gradient(900px 520px at 50% 140%, rgba(0,0,0,.30), rgba(0,0,0,0) 55%),
-    linear-gradient(180deg, #7c1bb4 0%, #4a0a76 55%, #2a063f 100%);
+    radial-gradient(
+      900px 420px at 50% -20%,
+      rgba(255, 255, 255, 0.25),
+      rgba(255, 255, 255, 0) 60%
+    ),
+    #400068;
+
 
   margin-bottom: -1px; /* seam fix */
 }
@@ -1746,11 +1750,7 @@ section {
   right: 0;
   bottom: 0;
   height: 90px;
-  background: linear-gradient(
-    to bottom,
-    rgba(64, 0, 104, 0) 0%,
-    #400068 100%
-  );
+  background:#400068;
   pointer-events: none;
 }
 
@@ -1770,12 +1770,7 @@ section {
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.92);
 
-  background:
-    radial-gradient(900px 360px at 50% -10%, rgba(255,255,255,0.08), rgba(255,255,255,0) 60%),
-    linear-gradient(180deg, #400068 0%, #2a063f 100%);
-
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  background:#400068;
 }
 
 .footer__wrap {
