@@ -23,7 +23,7 @@
             "assets": [
               "src/favicon.ico",
               { "glob": "**/*", "input": "src/assets", "output": "assets" },
-              "CNAME"
+              { "glob": "CNAME", "input": ".", "output": "/" }
             ],
             "styles": [
               "src/styles.scss"
@@ -67,7 +67,7 @@
               "src/favicon.ico",
               { "glob": "**/*", "input": "src/assets", "output": "assets" },
               { "glob": "**/*", "input": "public" },
-              "CNAME"
+              { "glob": "CNAME", "input": ".", "output": "/" }
             ],
             "styles": [
               "src/styles.scss"
