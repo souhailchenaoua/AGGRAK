@@ -177,7 +177,9 @@ section {
   align-items: center;
   gap: 6px;
   transition: transform 0.05s ease, filter 0.2s ease, background-color 0.2s ease;
-
+  font-size: inherit;
+  text-decoration: none;
+  font-family: inherit;
   &:active {
     transform: translateY(1px);
   }
